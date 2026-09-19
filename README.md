@@ -14,7 +14,7 @@ Toolkit criativo focado em design e experimentação visual, acessível diretame
 
 ## Como acessar
 
-1. Acesse o site oficial: `https://leomaiadesign.github.io/WANP.CC-GEN-TOOLS/`
+1. Acesse o site oficial: https://leomaiadesign.github.io/WANP.CC-GEN-TOOLS/
 2. Na tela inicial, escolha qual ferramenta você deseja utilizar.
 3. Faça o upload da sua imagem, ajuste os parâmetros e exporte o resultado final!
 
