@@ -1,28 +1,41 @@
-# WANP.CC - GEN TOOLS
+# 🛠 WANP.CC | Gen Tools
 
-Este repositório contém o **WANP.CC Toolkit**, um conjunto de ferramentas criativas voltadas para design e experimentação visual. 
-
-🌐 **[Acesse o Toolkit Online Aqui](https://leomaiadesign.github.io/WANP.CC-GEN-TOOLS/)**
+Toolkit criativo focado em design e experimentação visual, acessível diretamente pelo navegador.
 
 ---
 
-## 🛠 Ferramentas Disponíveis
+## O que faz
 
-### 1. Halftone Generator
-Uma ferramenta para converter imagens em padrões de meio-tom (halftone). 
-* **Recursos:** Suporte para diferentes tipos de padrões como pontos, quadrados, linhas verticais/horizontais e até mesmo caracteres ASCII. Permite controle sobre tamanho, densidade, contraste e resolução.
-
-### 2. Mosaic Builder
-Uma ferramenta interativa para criar mosaicos pixelados sobrepostos a imagens.
-* **Recursos:** Faça upload de uma imagem e use o cursor para pintar (ou apagar) quadrados em uma grade personalizada (grid). Ideal para criar composições geométricas e abstratas a partir de fotos reais.
+* **Halftone Generator:** Converte imagens em padrões de meio-tom (halftone) utilizando pontos, quadrados, linhas ou até mesmo caracteres ASCII, com controle total sobre escala e contraste.
+* **Mosaic Builder:** Permite criar composições geométricas pintando e apagando quadrados em um grid interativo sobreposto a fotos reais.
+* Processamento 100% local no navegador — nenhuma imagem é enviada para servidores externos.
 
 ---
 
-## 💻 Como usar localmente
-Caso deseje rodar as ferramentas no seu próprio computador sem precisar da internet:
-1. Faça o download ou clone este repositório.
-2. Abra o arquivo `index.html` diretamente em qualquer navegador moderno (Chrome, Safari, Firefox).
-3. Não é necessário nenhum servidor ou instalação de dependências.
+## Como acessar
+
+1. Acesse o site oficial: `https://leomaiadesign.github.io/WANP.CC-GEN-TOOLS/`
+2. Na tela inicial, escolha qual ferramenta você deseja utilizar.
+3. Faça o upload da sua imagem, ajuste os parâmetros e exporte o resultado final!
 
 ---
-*Criado por Léo Maia Design*
+
+## Como usar localmente (Opcional)
+
+1. Faça o clone ou baixe este repositório para a sua máquina.
+2. Abra o arquivo `index.html` em qualquer navegador.
+3. O toolkit funcionará perfeitamente offline, sem precisar instalar dependências.
+
+---
+
+## Tecnologia
+
+* **Frontend:** Interface construída puramente com `HTML`, `CSS` e `JavaScript` moderno (Vanilla).
+* **Renderização:** Utiliza a API de `Canvas` do HTML5 para leitura e manipulação de pixels em tempo real, garantindo performance fluida.
+* **Hospedagem:** Pipeline de deploy automatizado e hospedagem direta pelo `GitHub Pages`.
+
+---
+
+## Suporte
+
+Encontrou algum bug ou tem alguma ideia nova para o toolkit? Me chame no Discord: `leomaia.eyxo`
