@@ -317,9 +317,11 @@ function drawToContext(context, isExport = false) {
     context.rect(0, 0, res.w, res.h);
     context.clip();
 
-    // Draw solid BG color (if no image, or behind image)
-    context.fillStyle = bgColorInput.value;
-    context.fillRect(0, 0, res.w, res.h);
+    // Draw solid BG color (if no image, or behind image) - ONLY if not exporting
+    if (!isExport) {
+        context.fillStyle = bgColorInput.value;
+        context.fillRect(0, 0, res.w, res.h);
+    }
 
     if (bgImage && !isExport) {
         // Draw image covering the canvas (object-fit: cover logic can be added, for now simple stretch or draw top-left)
@@ -491,8 +493,8 @@ document.getElementById('exportSvgBtn').addEventListener('click', () => {
         </defs>`;
     }
     
-    // BG
-    svg += `<rect width="${res.w}" height="${res.h}" fill="${bgColorInput.value}" />`;
+    // BG (Removido para exportar com fundo transparente)
+    // svg += `<rect width="${res.w}" height="${res.h}" fill="${bgColorInput.value}" />`;
 
     const startX = margin;
     const startY = margin;

@@ -108,13 +108,13 @@ class Particle {
         this.brightness = brightness; 
     }
 
-    draw() {
+    draw(context = ctx) {
         let baseSize = parseFloat(particleSizeInput.value);
         let sMode = styleModeInput.value;
         let hMode = halftoneModeInput.value;
         
-        ctx.fillStyle = fgColorInput.value;
-        ctx.strokeStyle = ctx.fillStyle;
+        context.fillStyle = fgColorInput.value;
+        context.strokeStyle = context.fillStyle;
         
         let dynamicSize = baseSize;
         if (hMode === 'dark') {
@@ -125,22 +125,22 @@ class Particle {
 
         if (dynamicSize < 0.2) return;
 
-        ctx.beginPath();
+        context.beginPath();
         if (sMode === 'dots') {
-            ctx.arc(this.x, this.y, dynamicSize, 0, Math.PI * 2);
-            ctx.fill();
+            context.arc(this.x, this.y, dynamicSize, 0, Math.PI * 2);
+            context.fill();
         } else if (sMode === 'squares') {
-            ctx.fillRect(this.x - dynamicSize, this.y - dynamicSize, dynamicSize * 2, dynamicSize * 2);
+            context.fillRect(this.x - dynamicSize, this.y - dynamicSize, dynamicSize * 2, dynamicSize * 2);
         } else if (sMode === 'lines') {
             let height = dynamicSize * 4;
-            ctx.moveTo(this.x, this.y - height / 2);
-            ctx.lineTo(this.x, this.y + height / 2);
-            ctx.lineWidth = Math.max(0.5, baseSize * 0.4); 
-            ctx.stroke();
+            context.moveTo(this.x, this.y - height / 2);
+            context.lineTo(this.x, this.y + height / 2);
+            context.lineWidth = Math.max(0.5, baseSize * 0.4); 
+            context.stroke();
         } else if (sMode === 'ascii') {
-            ctx.font = `${dynamicSize * 2.5}px monospace`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
+            context.font = `${dynamicSize * 2.5}px monospace`;
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
             
             const chars = '@%#*+=-:. ';
             let charIndex;
@@ -153,7 +153,7 @@ class Particle {
             if (charIndex < 0) charIndex = 0;
             if (charIndex >= chars.length) charIndex = chars.length - 1;
             
-            ctx.fillText(chars[charIndex], this.x, this.y);
+            context.fillText(chars[charIndex], this.x, this.y);
         }
     }
 }
@@ -393,7 +393,7 @@ exportSvgBtn.addEventListener('click', function() {
     let vBoxW = canvas.width / vScale;
     let vBoxH = canvas.height / vScale;
     
-    let svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vBoxX} ${vBoxY} ${vBoxW} ${vBoxH}" style="background-color: ${bgColor};">\n`;
+    let svgString = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vBoxX} ${vBoxY} ${vBoxW} ${vBoxH}">\n`;
     
     for (let p of particlesArray) {
         let dynamicSize = baseSize;
@@ -443,8 +443,25 @@ exportSvgBtn.addEventListener('click', function() {
 
 // EXPORT PNG
 exportPngBtn.addEventListener('click', function() {
+    if(!hasImage) return alert("Please upload an image first.");
+
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext('2d');
+
+    tempCtx.save();
+    tempCtx.translate(vPanX, vPanY);
+    tempCtx.scale(vScale, vScale);
+
+    for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].draw(tempCtx);
+    }
+    
+    tempCtx.restore();
+
     const link = document.createElement('a');
     link.download = `wanp-gen-${Date.now()}.png`;
-    link.href = canvas.toDataURL();
+    link.href = tempCanvas.toDataURL('image/png');
     link.click();
 });
