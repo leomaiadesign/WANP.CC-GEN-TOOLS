@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WANP.CC - MOSAIC BUILDER</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- SVG Filter for Liquid Mode -->
+    <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+            <filter id="liquidFilter">
+                <feGaussianBlur id="liquidBlur" in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 18 -7" result="mask" />
+                <feFlood id="liquidFlood" flood-color="#ffffff" result="solidColor" />
+                <feComposite in="solidColor" in2="mask" operator="in" />
+            </filter>
+        </defs>
+    </svg>
+
+    <div id="ui-panel">
+        <a href="../../index.html" style="color: #aaa; text-decoration: none; font-size: 0.8rem; margin-bottom: 10px; display: inline-block;">&larr; Back to Hub</a>
+        <h1 style="margin-top: 0;">MOSAIC BUILDER <span class="badge">GEN TOOL</span></h1>
+        
+        <div class="control-group">
+            <label for="imageUpload" class="custom-file-upload">
+                Upload Image
+            </label>
+            <input type="file" id="imageUpload" accept="image/*">
+        </div>
+
+        <div class="control-group" style="flex-direction: row; gap: 5px; align-items: flex-end;">
+            <div style="flex:1;">
+                <label for="bgColor" style="margin-bottom: 5px;">BG Color</label>
+                <input type="color" id="bgColor" value="#000000" style="width:100%; height:35px; cursor:pointer;">
+            </div>
+            <button id="swapColorsBtn" style="padding: 0 10px; height: 35px; font-weight: bold; width: auto; border-radius: 4px;" title="Swap Colors">⇄</button>
+            <div style="flex:1;">
+                <label for="squareColor" style="margin-bottom: 5px;">Square Color</label>
+                <input type="color" id="squareColor" value="#ffff00" style="width:100%; height:35px; cursor:pointer;">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label>Resolution</label>
+            <div style="display: flex; gap: 5px;">
+                <input type="number" id="resWidth" value="1080" placeholder="W" style="flex: 1; min-width: 0; padding: 6px; font-family: monospace; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border); border-radius: 4px; text-align: center;">
+                <input type="number" id="resHeight" value="1350" placeholder="H" style="flex: 1; min-width: 0; padding: 6px; font-family: monospace; background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border); border-radius: 4px; text-align: center;">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="gridSize">Distance (Grid Size)</label>
+            <div class="slider-group">
+                <input type="range" id="gridSize" min="10" max="200" value="50" step="1">
+                <input type="number" id="gridSize_num" min="10" max="200" value="50">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="squareSize">Square Size</label>
+            <div class="slider-group">
+                <input type="range" id="squareSize" min="5" max="200" value="40" step="1">
+                <input type="number" id="squareSize_num" min="5" max="200" value="40">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="margin">Margin (px)</label>
+            <div class="slider-group">
+                <input type="range" id="margin" min="0" max="300" value="50" step="1">
+                <input type="number" id="margin_num" min="0" max="300" value="50">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label for="density">Base Density (Fill %)</label>
+            <div class="slider-group">
+                <input type="range" id="density" min="0" max="100" value="30" step="1">
+                <input type="number" id="density_num" min="0" max="100" value="30">
+            </div>
+        </div>
+
+        <div class="control-group" style="padding-top: 15px; border-top: 1px solid var(--border); margin-top: 10px;">
+            <label style="margin-bottom: 8px; color: var(--accent);">Brush Settings (Shift + Drag to use)</label>
+            <div style="display: flex; gap: 5px; margin-bottom: 10px;">
+                <button id="brushModePaint" style="flex: 1; background: var(--accent); color: #000; border-color: var(--accent);">Paint</button>
+                <button id="brushModeErase" style="flex: 1; background: #333; color: #ccc;">Erase</button>
+            </div>
+            <label for="brushSize">Brush Radius (Grids)</label>
+            <div class="slider-group">
+                <input type="range" id="brushSize" min="1" max="20" value="3" step="1">
+                <input type="number" id="brushSize_num" min="1" max="20" value="3">
+            </div>
+        </div>
+
+        <div class="control-group" style="flex-direction: row; gap: 15px; align-items: center; margin-top: 5px;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="checkbox" id="liquidMode" style="cursor: pointer; width: 16px; height: 16px;">
+                <label for="liquidMode" style="margin: 0; cursor: pointer; color: #fff; text-transform: none; letter-spacing: 0;">Liquid Mode</label>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <input type="checkbox" id="outlineMode" style="cursor: pointer; width: 16px; height: 16px;">
+                <label for="outlineMode" style="margin: 0; cursor: pointer; color: #fff; text-transform: none; letter-spacing: 0;">Outline Mode</label>
+            </div>
+        </div>
+
+        <div class="control-group" id="liquidRadiusGroup" style="display: none;">
+            <label for="liquidRadius">Liquid Radius</label>
+            <div class="slider-group">
+                <input type="range" id="liquidRadius" min="1" max="50" value="10">
+                <input type="number" id="liquidRadius_num" min="1" max="50" value="10">
+            </div>
+        </div>
+
+        <div class="control-group" id="lineWidthGroup" style="display: none;">
+            <label for="lineWidth">Line Thickness</label>
+            <div class="slider-group">
+                <input type="range" id="lineWidth" min="1" max="20" value="2" step="0.5">
+                <input type="number" id="lineWidth_num" min="1" max="20" value="2" step="0.5">
+            </div>
+        </div>
+
+        <div class="control-group" style="flex-direction: row; gap: 8px; align-items: center; margin-top: 5px;">
+            <input type="checkbox" id="showGrid" style="cursor: pointer; width: 16px; height: 16px;">
+            <label for="showGrid" style="margin: 0; cursor: pointer; color: #fff; text-transform: none; letter-spacing: 0;">Show Grid</label>
+        </div>
+
+        <div id="gridOptionsGroup" style="display: none; flex-direction: column; gap: 10px; margin-top: 5px; padding-left: 24px; border-left: 2px solid var(--border);">
+            <div class="control-group" style="flex-direction: row; gap: 8px; align-items: center;">
+                <input type="checkbox" id="exportGrid" style="cursor: pointer; width: 14px; height: 14px;">
+                <label for="exportGrid" style="margin: 0; cursor: pointer; color: var(--text-muted); text-transform: none; letter-spacing: 0; font-size: 0.75rem;">Include in Export</label>
+            </div>
+            <div class="control-group">
+                <label for="gridColor" style="margin-bottom: 2px; font-size: 0.7rem;">Grid Color</label>
+                <input type="color" id="gridColor" value="#ffffff" style="width:100%; height:25px; cursor:pointer;">
+            </div>
+            <div class="control-group">
+                <label for="gridOpacity" style="font-size: 0.7rem;">Grid Opacity (%)</label>
+                <div class="slider-group">
+                    <input type="range" id="gridOpacity" min="0" max="100" value="15" step="1">
+                    <input type="number" id="gridOpacity_num" min="0" max="100" value="15" style="width: 45px; font-size: 0.75rem; padding: 2px;">
+                </div>
+            </div>
+        </div>
+
+        <div class="control-group" style="margin-top: 10px;">
+            <button id="generateBtn" style="background: #333; color: white; border-color: #555;">Generate Pattern</button>
+        </div>
+
+        <div class="control-group" style="margin-top: 10px; padding-top: 15px; border-top: 1px solid var(--border);">
+            <label>Presets</label>
+            <div style="display: flex; gap: 5px; margin-bottom: 5px;">
+                <select id="presetSelect" style="flex: 1; min-width: 0;">
+                    <option value="">-- Select Preset --</option>
+                </select>
+                <button id="resetPresetBtn" style="width: auto; padding: 0 10px; font-size: 0.8rem;" title="Reload selected preset (undo changes)">↻</button>
+                <button id="savePresetBtn" style="width: auto; padding: 0 15px;" title="Save current settings">Save</button>
+            </div>
+            <div id="presetActions" style="display: none; gap: 5px;">
+                <button id="renamePresetBtn" style="flex: 1; padding: 5px; font-size: 0.75rem;">Rename</button>
+                <button id="deletePresetBtn" style="flex: 1; padding: 5px; font-size: 0.75rem; border-color: #f44336; color: #f44336;">Delete</button>
+            </div>
+        </div>
+
+        <div class="export-group">
+            <button id="exportPngBtn">Export PNG</button>
+            <button id="exportSvgBtn">Export SVG (Vector)</button>
+        </div>
+        
+        <p style="font-size: 0.75rem; color: #888; text-align: center; margin-top: 10px;">
+            Scroll to Zoom. Click and Drag to Pan.
+        </p>
+    </div>
+
+    <div id="canvas-container" style="position: relative;">
+        <canvas id="mainCanvas"></canvas>
+        <div id="zoomUI" style="position: absolute; bottom: 20px; right: 20px; display: flex; gap: 15px; background: rgba(0,0,0,0.6); padding: 8px 12px; border-radius: 6px; align-items: center; z-index: 20;">
+            <span id="zoomLabel" style="color: #fff; font-family: monospace; font-size: 14px; min-width: 45px; text-align: right;">100%</span>
+            <button id="resetZoomBtn" style="padding: 4px 10px; font-size: 12px; border: 1px solid #fff; border-radius: 4px; color: #fff; background: transparent; cursor: pointer; text-transform: uppercase;">Reset View</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
