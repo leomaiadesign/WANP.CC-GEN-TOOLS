@@ -33,9 +33,3 @@ Toolkit criativo focado em design e experimentação visual, acessível diretame
 * **Frontend:** Interface construída puramente com `HTML`, `CSS` e `JavaScript` moderno (Vanilla).
 * **Renderização:** Utiliza a API de `Canvas` do HTML5 para leitura e manipulação de pixels em tempo real, garantindo performance fluida.
 * **Hospedagem:** Pipeline de deploy automatizado e hospedagem direta pelo `GitHub Pages`.
-
----
-
-## Suporte
-
-Encontrou algum bug ou tem alguma ideia nova para o toolkit? Me chame no Discord: `leomaia.eyxo`
